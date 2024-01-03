@@ -1,4 +1,9 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState
+} from 'react';
 import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
@@ -8,20 +13,31 @@ import {
   sendEmailVerification
 } from 'firebase/auth';
 
-import { auth } from '../config/firebase';
+import {
+  auth
+} from '../config/firebase';
 
 const AuthContext = createContext({});
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthContextProvider = ({ children }) => {
+export const AuthContextProvider = ({
+  children
+}) => {
   const [user, setUser] = useState(null);
+
   const [loading, setLoading] = useState(true);
+
   const [loginError, setLoginError] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      user ? setUser({ uid: user.uid, email: user.email, displayName: user.displayName, imgUrl: user.photoURL }) : setUser(null);
+      user ? setUser({
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        imgUrl: user.photoURL
+      }) : setUser(null);
       setLoading(false);
     });
 
@@ -66,9 +82,20 @@ export const AuthContextProvider = ({ children }) => {
     });
   };
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout, signup, registerToFirestore, loading, loginError }}>
-      {loading ? null : children}
-    </AuthContext.Provider>
+  return ( <
+    AuthContext.Provider value = {
+      {
+        user,
+        login,
+        logout,
+        signup,
+        registerToFirestore,
+        loading,
+        loginError
+      }
+    } > {
+      loading ? null : children
+    } <
+    /AuthContext.Provider>
   );
 };
